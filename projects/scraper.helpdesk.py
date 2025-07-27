@@ -1,98 +1,66 @@
-import requests
-from bs4 import BeautifulSoup, Comment
-import json
+# Import necessary libraries
+import requests                    # Used to send HTTP requests to the target website
+from bs4 import BeautifulSoup     # Used for parsing HTML content
+import json                       # Used for saving data in JSON format
 
+# Helper class that contains utility functions for web scraping
 class HelperScraper:
+    # Fetches the HTML content of the given URL
     def fetch_html(self, url):
-        response = requests.get(url)
-        if response.status_code == 200:
-            return response.text
-        raise Exception(f"Не вдалося завантажити {url}")
+        headers = {'User-Agent': 'Mozilla/5.0'}  # Set headers to mimic a browser request
+        response = requests.get(url, headers=headers)  # Send HTTP GET request
+        if response.status_code == 200:                # Check if the request was successful
+            return response.text                       # Return HTML content as string
 
+    # Parses the raw HTML using BeautifulSoup and returns a parsed object
     def parse_html(self, html):
-        return BeautifulSoup(html, 'html.parser')
+        return BeautifulSoup(html, 'html.parser')      # Use the built-in HTML parser
 
+    # Saves extracted data to a JSON file
     def save_to_json(self, data, filename):
         with open(filename, 'w', encoding='utf-8') as file:
-            json.dump(data, file, ensure_ascii=False, indent=4)
+            json.dump(data, file, ensure_ascii=False, indent=4)  # Write formatted JSON
 
+# Main scraper class specifically for Hitachi EOL data
+class HitachiScraper:
+    def __init__(self):
+        # URL of the page that contains End-of-Life information for Hitachi products
+        self.url = 'https://www.parkplacetechnologies.com/eosl/hitachi/'
+        self.data = []  # Initialize an empty list to store the extracted product data
 
-class HelpdeskAndMacroScraper:
-    def __init__(self, urls):
-        self.urls = urls
-        self.helper = HelperScraper()
-        self.result = {}
+    # Main method to perform the scraping task
+    def scrape(self):
+        helper = HelperScraper()                    # Create instance of helper class
+        html = helper.fetch_html(self.url)          # Fetch HTML from the target URL
+        soup = helper.parse_html(html)              # Parse the HTML content
 
-    def run(self):
-        for name, url in self.urls.items():
-            print(f"Обробляю {name}: {url}")
-            html = self.helper.fetch_html(url)
-            soup = self.helper.parse_html(html)
+        table = soup.find('table')                  # Find the first <table> element
+        if not table:
+            print('Table not found')                # Print error if table is missing
+            return
 
-            if name == "macro":
-                self.result[name] = self.scrape_macro(soup)
-            elif name == "helpdesk":
-                self.result[name] = self.scrape_helpdesk(soup)
+        rows = table.find_all('tr')[1:]             # Get all rows except the header row
+        for row in rows:
+            cols = row.find_all('td')               # Find all cells in the current row
+            if len(cols) >= 2:                      # Ensure at least two columns exist
+                model = cols[0].text.strip()        # Extract and clean the model name
+                eol_date = cols[1].text.strip()     # Extract and clean the EOL date
 
-        self.helper.save_to_json(self.result, "versions.json")
-        print("Дані збережено у versions.json")
+                # Append the extracted data as a dictionary to the list
+                self.data.append({
+                    'Model': model,
+                    'Eol_date': eol_date
+                })
 
-    def scrape_macro(self, soup):
-        releases = []
-        for div in soup.find_all('div', class_='mt3'):
-            comments = []
-            for element in div.children:
-                if isinstance(element, Comment):
-                    comments.append(element)
+        # Save the scraped data into a JSON file
+        helper.save_to_json(self.data, 'hitachi.json')
+        print(f'Saved {len(self.data)} entries to hitachi.json')  # Output the result
 
-            if comments:
-                version = comments[0].strip()
-            else:
-                version = "Unknown version"
-
-            details_list = [t for t in div.stripped_strings if not isinstance(t, Comment)]
-            details = ' '.join(details_list).strip()
-
-            releases.append({'version': version, 'details': details})
-
-        return releases
-
-    def scrape_helpdesk(self, soup):
-        releases = []
-        for h2 in soup.find_all('h2'):
-            version = h2.get_text(strip=True)
-            sibling = h2
-            details = []
-            while sibling := sibling.find_next_sibling():
-                if sibling.name == 'ul':
-                    details = [li.get_text(strip=True) for li in sibling.find_all('li')]
-                    break
-            if details:
-                releases.append({'version': version, 'details': details})
-        return releases
-
-
+# Function to run the scraper
 def main():
-    urls = {
-        "macro": "https://www.jitbit.com/macro-recorder/versionhistory/",
-        "helpdesk": "https://www.jitbit.com/helpdesk/versionhistory/"
-    }
+    scraper = HitachiScraper()  # Create a scraper instance
+    scraper.scrape()            # Start the scraping process
 
-    scraper = HelpdeskAndMacroScraper(urls)
-    scraper.run()
-
-    # Вивід перших кількох версій
-    for category, items in scraper.result.items():
-        print(f"\n=== {category.upper()} ===")
-        for item in items[:3]:
-            print(f"{item['version']}:")
-            if isinstance(item['details'], list):
-                for line in item['details']:
-                    print(f"  • {line}")
-            else:
-                print(f"  {item['details']}")
-            print('-' * 60)
-
-
-if __name__ == "__main__":
+# Ensures that main() runs only when this script is executed directly
+if __name__ == '__main__':
     main()
