@@ -1,63 +1,80 @@
-import requests
-from bs4 import BeautifulSoup
-import json
+# Import required libraries
+import requests                    # For sending HTTP requests
+from bs4 import BeautifulSoup     # For parsing HTML content
+import json                       # For saving data in JSON format
 
+
+# Helper class for fetching, parsing, and saving data
 class HelperScraper:
-    def fetch_html(self,url):
+    # Fetches the HTML content of a given URL
+    def fetch_html(self, url):
         response = requests.get(url)
         if response.status_code == 200:
-            return response.text
-        
+            return response.text  # Return HTML content if request is successful
+        return None               # Return None if request fails
 
-    def parse_html(self,html):
-        return BeautifulSoup(html,'html.parser')
-    
+    # Parses raw HTML using BeautifulSoup and returns a soup object
+    def parse_html(self, html):
+        return BeautifulSoup(html, 'html.parser')
 
-    def save_to_json(self,data,filname):
-        with open(filname,'w',encoding='utf-8') as file:
-            json.dump(data,file,ensure_ascii=False,indent=4)
+    # Saves the given data to a JSON file
+    def save_to_json(self, data, filename):
+        with open(filename, 'w', encoding='utf-8') as file:
+            json.dump(data, file, ensure_ascii=False, indent=4)
 
 
-class HardwerScraper:
+# Scraper class for extracting EOL data from hardwarewartung.com
+class HardwareScraper:
     def __init__(self):
+        # Target URL that contains Hitachi EOL product data
         self.base_url = 'https://www.hardwarewartung.com/en/hitachi-end-of-life-en/'
-        self.data = []
+        self.data = []  # List to store the extracted data
 
+    # Main method that performs the scraping process
     def scrape(self):
-        helper = HelperScraper()
-        html = helper.fetch_html(self.base_url)
-        soup = helper.parse_html(html)
+        helper = HelperScraper()                      # Create a helper instance
+        html = helper.fetch_html(self.base_url)       # Fetch the HTML content
+        if html is None:
+            print("Failed to fetch the webpage.")
+            return
 
-        table = soup.find('table')
+        soup = helper.parse_html(html)                # Parse the HTML
+
+        table = soup.find('table')                    # Find the first table on the page
         if not table:
-            return print("Nima")
-        
-        rows = table.find_all('tr')[1:]
+            print("Table not found on the page.")     # If no table found, print message
+            return
+
+        rows = table.find_all('tr')[1:]               # Skip the table header
 
         for row in rows:
-            cols = row.find_all("td")
-            if len(cols)>3:
+            cols = row.find_all("td")                 # Get all columns in the row
+            if len(cols) > 3:                         # Ensure there are enough columns
                 product_name = cols[0].text.strip()
                 model = cols[1].text.strip()
-                eol_data = cols[2].text.strip()
-                support_data = cols[3].text.strip()
+                eol_date = cols[2].text.strip()
+                support_date = cols[3].text.strip()
 
+                # Append the extracted data to the list
                 self.data.append({
-                    'Manuf' : product_name,
-                    'model' : model,
-                    'end_of_servise_life' : eol_data,
-                    'support_till' : support_data
+                    'manufacturer': product_name,
+                    'model': model,
+                    'end_of_service_life': eol_date,
+                    'support_until': support_date
                 })
 
-        helper.save_to_json(self.data,'hardwer.json')
-        print(f"Saved {len(self.data)} in hardwer.json")
+        # Save all data to a JSON file
+        helper.save_to_json(self.data, 'hardware.json')
+        print(f"Saved {len(self.data)} records to hardware.json")
 
 
+# Entry point for the script
 def main():
-     scraper = HardwerScraper()
-     scraper.scrape()
+    scraper = HardwareScraper()  # Create scraper instance
+    scraper.scrape()             # Start scraping
 
 
+# Execute the script only if run directly
 if __name__ == '__main__':
     main()
 
