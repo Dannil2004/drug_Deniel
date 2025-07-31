@@ -4,18 +4,19 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 import time
-import json
+import json.                               #<~~ ПЕРШИЙ ЄТАП ІМПОРТ ІНСТРУМЕНТІВ 
 import csv
 
 chrome_options = Options()
 chrome_options.add_argument('--headless')
-chrome_options.add_argument('--disable-gpu')
+chrome_options.add_argument('--disable-gpu').    #<~~~ ДРУГИЙ ПОТІМ МИ НАСТРЮЄМ БРАУЗЄР
 chrome_options.add_argument('--no-sanbox')
 
 service = Service(ChromeDriverManager().install())
-driver = webdriver.Chrome(service=service,options=chrome_options)
+driver = webdriver.Chrome(service=service,options=chrome_options).       #<~~~ ТРЕТІЙПОТІМ ТРЕБА ЦЕ ЗАПУСТИТИ 
 
-url = 'https://my.f5.com/manage/s/article/K9412'
+url = 'https://my.f5.com/manage/s/article/K9412'.        #<~~~ ЧЕТРЕРТИЙ ЄТАП ЦЕ ЗАПИТ ЮРЛ ЗАПУСК
+#ЧЕКАННЯ ЗАКОУЗКИ ПОЛУЧЕНІЄ ХТМЛ І ЗАКРИТТЯЯ
 driver.get(url)
 
 time.sleep(5)
@@ -24,7 +25,7 @@ html = driver.page_source
 
 driver.quit()
 
-soup = BeautifulSoup(html,'html.parser')
+soup = BeautifulSoup(html,'html.parser').  #<~~ ПЯТИЙ ЄТАП ЦЕ ПІДКЛЮЧЕННЯ СУПА І ПОШУК ВИХ ТАБЛИЦ
 
 tables = soup.find_all('table')
 print(f'Tables found{len(tables)}')
@@ -33,21 +34,21 @@ target_headrs = {
     'BIG-IP version' : ["big-ip version",
     "big-ip ver","version"],
     'Bld' : ["bld","build"],
-    "Release date" : ["release date","date"],
+    "Release date" : ["release date","date"],       #<~~~. ШОСТИЙ ЄТАП ЦЕ СТВОРЕННЯ СЛОВНИКА З ВОЗМОЖНИМИ НАЗВАМИ ТОГО ШО НАМ НАДЛ НАЙТИ 
     "Supported hardware products" : ["supported hardware products","hardware productc","supported hardware"]}
 
 
 def split_hardware(text):
     for ch in ['(',')','\n']:
-        text = text.replace(ch,',')
+        text = text.replace(ch,',').   #<~~~~ Сьмий Тут ми змінюємо всі знаки на коми
     parts = text.split(',')
     parts = [p.strip() for p in parts if p.strip()]
     return parts
 
-results = []
+results = [].   #<~~~ СЬОМИМ ЄТАПОМ Є СТВОРЕННЯ ЛІСТИ ДОЯ ПЕРЕХОВУВАННЯ ГОТОВИХ ДАННИХ З ТАБЛИЦІ 
 
 for i,table in enumerate(tables):
-    rows = table.find_all('tr')
+    rows = table.find_all('tr').   #<~~ ВОСЬМИМ ЄТАПОМ Є ВИВЕДЕННЯ КІЛЬКОСТІ ТАБЛТЦЬ І ПЕРЕВОДА ЇХ В МАЛЕНЬКІ ЛІТЕРИ 
     if not rows:
         continue
 
