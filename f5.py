@@ -1,107 +1,186 @@
+
+# Import required libraries
+import requests                    # Used for sending HTTP requests
+from bs4 import BeautifulSoup     # Used for parsing HTML content
+import json                       # Used for saving data in JSON format
+import csv                        # Used for saving data in CSV format
+import time
+
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
-from bs4 import BeautifulSoup
-import time
-import json  # <~~ ПЕРШИЙ ЕТАП — ІМПОРТУЄМО ІНСТРУМЕНТИ, ЩО ПОТРІБНІ ДЛЯ СКРАПІНГУ
-import csv
 
+
+# --- STEP 1: Configure Chrome options (headless mode for automation) ---
 chrome_options = Options()
-chrome_options.add_argument('--headless')        # <--- ДРУГИЙ ЕТАП — НАЛАШТОВУЄМО БРАУЗЕР (РЕЖИМ БЕЗ ВІКНА)
-chrome_options.add_argument('--disable-gpu')     # <--- ВИМКНЕННЯ АПАРАТНОГО ПРОСКОРЕННЯ ДЛЯ СУПРОВІДНОГО СЕРВЕРА
-chrome_options.add_argument('--no-sanbox')        # <--- ВИМКНЕННЯ ПІСКОВОЇ ОБОЛОНКИ (НА ЛІНУКСІ ІНКОЛИ ПОТРІБНО)
+chrome_options.add_argument('--headless')        # Run browser in background (no UI)
+chrome_options.add_argument('--disable-gpu')     # Disable GPU acceleration (for stability)
+chrome_options.add_argument('--no-sandbox')      # Disable sandbox (often needed on Linux servers)
 
+
+# --- STEP 2: Initialize WebDriver ---
 service = Service(ChromeDriverManager().install())
-driver = webdriver.Chrome(service=service, options=chrome_options)  # <--- ЗАПУСКАЄМО ХРОМ З ВИЩЕНАЗВАНИМИ НАЛАШТУВАННЯМИ
+driver = webdriver.Chrome(service=service, options=chrome_options)
 
-url = 'https://my.f5.com/manage/s/article/K9412'  # <--- ВСТАВЛЯЄМО ПОТРІБНУ URL-АДРЕСУ
-driver.get(url)                                   # <--- ВІДКРИВАЄМО СТОРІНКУ У БРАУЗЕРІ
 
-time.sleep(5)                                     # <--- ЧЕКАЄМО 5 СЕКУНД, ЩОБ ВСЕ ЗАВАНТАЖИЛОСЯ
+# --- STEP 3: Open target URL ---
+url = 'https://my.f5.com/manage/s/article/K9412'
+driver.get(url)
 
-html = driver.page_source                         # <--- ВИТЯГУЄМО HTML КОД СТОРІНКИ
 
-driver.quit()                                     # <--- ЗАКРИВАЄМО БРАУЗЕР
+# --- STEP 4: Wait for page to load (basic approach) ---
+time.sleep(5)   # In real projects лучше использовать WebDriverWait
 
-soup = BeautifulSoup(html, 'html.parser')        # <--- ПЕРЕТВОРЮЄМО HTML В ОБ’ЄКТ ДЛЯ ЛЕГКОГО ПАРСИНГУ
 
-tables = soup.find_all('table')                   # <--- ЗНАХОДИМО ВСІ ТАБЛИЦІ НА СТОРІНЦІ
-print(f'Tables found {len(tables)}')              # <--- ВИВОДИМО КІЛЬКІСТЬ ЗНАЙДЕНИХ ТАБЛИЦЬ
+# --- STEP 5: Extract HTML content ---
+html = driver.page_source
 
-# <--- ВИЗНАЧАЄМО СЛОВНИК З НАЗВАМИ КОЛОНОК, ЯКІ НАМ ПОТРІБНО ШУКАТИ, ТА МОЖЛИВІ ВАРІАНТИ ЇХ НАПИСАННЯ
-target_headrs = {
+
+# --- STEP 6: Close browser ---
+driver.quit()
+
+
+# --- STEP 7: Parse HTML with BeautifulSoup ---
+soup = BeautifulSoup(html, 'html.parser')
+
+
+# --- STEP 8: Find all tables on the page ---
+tables = soup.find_all('table')
+print(f'Tables found: {len(tables)}')
+
+
+# --- STEP 9: Define target headers and their possible variations ---
+target_headers = {
     'BIG-IP version': ["big-ip version", "big-ip ver", "version"],
     'Bld': ["bld", "build"],
     "Release date": ["release date", "date"],
-    "Supported hardware products": ["supported hardware products", "hardware productc", "supported hardware"]
+    "Supported hardware products": [
+        "supported hardware products",
+        "hardware productc",
+        "supported hardware"
+    ]
 }
 
-# <--- ФУНКЦІЯ, ЯКА РОЗБИВАЄ ТЕКСТ З АПАРАТНИМ ЗАБЕЗПЕЧЕННЯМ НА СПИСОК ОКРЕМИХ МОДЕЛЕЙ
+
+# --- Helper function: Split hardware text into a clean list ---
 def split_hardware(text):
-    for ch in ['(', ')', '\n']:               # <--- ЗАМІНЮЄМО ДУЖКИ І НОВІ РЯДКИ НА КОМИ
+    # Replace unwanted characters with commas
+    for ch in ['(', ')', '\n']:
         text = text.replace(ch, ',')
-    parts = text.split(',')                   # <--- РОЗДІЛЯЄМО ПО КОМІ
-    parts = [p.strip() for p in parts if p.strip()]  # <--- ОЧИЩАЄМО ВІД ПРОБІЛІВ І ПУСТИХ ЕЛЕМЕНТІВ
+
+    # Split string into parts
+    parts = text.split(',')
+
+    # Clean whitespace and remove empty values
+    parts = [p.strip() for p in parts if p.strip()]
+
     return parts
 
-results = []  # <--- СПИСОК ДЛЯ ЗБЕРІГАННЯ ВСІХ ЗНАЙДЕНИХ ЗАПИСІВ
 
-for i, table in enumerate(tables):          # <--- ПРОХОДИМО ПО КОЖНІЙ ТАБЛИЦІ НА СТОРІНЦІ (i — номер таблиці)
-    rows = table.find_all('tr')              # <--- ЗНАХОДИМО ВСІ РЯДКИ В ТАБЛИЦІ
-    if not rows:                             # <--- ЯКЩО РЯДКІВ НІ, ПРОПУСКАЄМО ТАБЛИЦЮ
-        continue
+# --- STEP 10: Extract data from tables ---
+results = []
 
-    headers = [th.get_text(strip=True).lower() for th in rows[0].find_all(['th', 'td'])]  # <--- ОТРИМУЄМО ЗАГОЛОВКИ ПЕРШОГО РЯДКА ТАБЛИЦІ І ПРИВОДИМО ЇХ ДО НИЖНЬОГО РЕЄСТРУ
-    print(f'Table {i+1} headers {headers}')     # <--- ВИВОДИМО ЗАГОЛОВКИ ДЛЯ ПРОВІРКИ
+for i, table in enumerate(tables):
 
-    headers_map = {}                            # <--- СЛОВНИК ДЛЯ ВІДПОВІДНОСТІ НАЗВ КОЛОНОК І ЇХ ІНДЕКСІВ
-    for idx, h in enumerate(headers):          # <--- ПРОХОДИМО ПО КОЖНОМУ ЗАГОЛОВКУ З ТАБЛИЦІ
-        for key, variants in target_headrs.items():   # <--- ПЕРЕВІРЯЄМО, ЧИ Є В ТЕКСТІ ЗАГОЛОВКА ОДИН ІЗ ВАРІАНТІВ З НАШОГО СЛОВНИКА
-            if any(v in h for v in variants):    # <--- ЯКЩО Є СХОЖИЙ ВАРІАНТ, ЗАПИСУЄМО ІНДЕКС КОЛОНКИ ПІД ВІДПОВІДНИМ КЛЮЧЕМ
+    rows = table.find_all('tr')
+
+    if not rows:
+        continue  # Skip empty tables
+
+
+    # Extract headers from the first row
+    headers = [
+        th.get_text(strip=True).lower()
+        for th in rows[0].find_all(['th', 'td'])
+    ]
+
+    print(f'Table {i+1} headers: {headers}')
+
+
+    # Map detected headers to target fields
+    headers_map = {}
+
+    for idx, h in enumerate(headers):
+        for key, variants in target_headers.items():
+            if any(v in h for v in variants):
                 headers_map[key] = idx
                 break
 
-    if not headers_map:  # <--- ЯКЩО НЕ ЗНАЙШЛОСЯ ПОТРІБНИХ КОЛОНОК — ПРОПУСКАЄМО ТАБЛИЦЮ
-        print(f'Table {i+1} пропущена - немає потрібних заголовків')
+
+    # Skip table if required headers are not found
+    if not headers_map:
+        print(f'Table {i+1} skipped - required headers not found')
         continue
 
-    for row in rows[1:]:         # <--- ПРОХОДИМО ПО ВСІХ РЯДКАХ ТАБЛИЦІ, КРІМ ЗАГОЛОВКА
-        cells = row.find_all(['td', 'th'])   # <--- ОТРИМУЄМО В КОЖНОМУ РЯДКУ ВСІ ЯЧЕЙКИ
-        if not cells:                       # <--- ЯКЩО ЯЧЕЙОК НІ, ПРОПУСКАЄМО РЯДОК
+
+    # --- Extract data rows ---
+    for row in rows[1:]:
+
+        cells = row.find_all(['td', 'th'])
+
+        if not cells:
             continue
 
-        entry = {}                       # <--- СЛОВНИК ДЛЯ ЗБЕРІГАННЯ ДАНИХ З РЯДКА
 
-        for key, idx in headers_map.items():    # <--- ЗБИРАЄМО ПОТРІБНІ ДАНІ З ЯЧЕЙОК ЗА ІНДЕКСАМИ
+        entry = {}
+
+        # Extract values based on mapped column indexes
+        for key, idx in headers_map.items():
             text = cells[idx].get_text(strip=True) if idx < len(cells) else ""
             entry[key] = text
 
-        big_ip_text = entry.get("BIG-IP version", "")                     # <--- ОКРЕМІ ЗНАЧЕННЯ ЗАПИСУЄМО В ПЕРЕМІННІ
+
+        # --- Data cleaning and normalization ---
+        big_ip_text = entry.get("BIG-IP version", "")
         existing_hw = entry.get("Supported hardware products", "")
-        combined = ','.join(filter(None, [existing_hw, big_ip_text]))       # <--- ОБ’ЄДНУЄМО ЇХ В ОДИН РЯДОК (ЯКЩО Є ОБИДВА)
-        entry["Supported hardware products"] = split_hardware(combined)   # <--- РОЗБИВАЄМО ЦЕЙ РЯДОК НА СПИСОК МОДЕЛЕЙ
-        entry["BIG-IP version"] = big_ip_text.strip()                      # <--- ЗАЛИШАЄМО BIG-IP VERSION ЯК Є
 
-        results.append(entry)          # <--- ДОДАЄМО ЗАПИС У СПИСОК РЕЗУЛЬТАТІВ
+        # Combine hardware + version for better parsing
+        combined = ','.join(filter(None, [existing_hw, big_ip_text]))
 
-print(f"Знайдено записів: {len(results)}")   # <--- ВИВОДИМО КІЛЬКІСТЬ ЗАПИСІВ
+        # Convert to list
+        entry["Supported hardware products"] = split_hardware(combined)
 
-# <--- ЗБЕРІГАЄМО РЕЗУЛЬТАТИ У ФАЙЛ JSON З ВІДСТУПАМИ І КОДУВАННЯМ UTF-8
+        # Clean version text
+        entry["BIG-IP version"] = big_ip_text.strip()
+
+
+        results.append(entry)
+
+
+print(f"Total records found: {len(results)}")
+
+
+# --- STEP 11: Save results to JSON ---
 with open("f5_data.json", "w", encoding="utf-8") as f_json:
     json.dump(results, f_json, indent=4, ensure_ascii=False)
 
-csv_headers = ["BIG-IP version", "Bld", "Release date", "Supported hardware products", "EUD", "AOM"]
 
-# <--- ЗБЕРІГАЄМО РЕЗУЛЬТАТИ У CSV, КОНВЕРТУЮЧИ СПИСКИ В РЯДКИ ЧЕРЕЗ ";"
+# --- STEP 12: Save results to CSV ---
+csv_headers = [
+    "BIG-IP version",
+    "Bld",
+    "Release date",
+    "Supported hardware products",
+    "EUD",
+    "AOM"
+]
+
 with open("f5_data.csv", "w", newline='', encoding="utf-8") as f_csv:
+
     writer = csv.DictWriter(f_csv, fieldnames=csv_headers)
     writer.writeheader()
+
     for entry in results:
         row = {}
+
         for h in csv_headers:
             val = entry.get(h, "")
+
+            # Convert lists to string for CSV format
             if isinstance(val, list):
                 val = "; ".join(val)
+
             row[h] = val
+
         writer.writerow(row)
