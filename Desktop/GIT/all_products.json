@@ -1,0 +1,506 @@
+[
+  {
+    "product_name": "Accelio Capture Designer",
+    "version": "4",
+    "build": "4.0.4200.2002",
+    "general_availability": "6/24/2002",
+    "end_of_core_support": "6/30/2007",
+    "end_of_extended_support": "6/30/2009"
+  },
+  {
+    "product_name": "Accelio Capture Designer",
+    "version": "4",
+    "build": "4.0.4205.2002",
+    "general_availability": "10/31/2002",
+    "end_of_core_support": "6/30/2007",
+    "end_of_extended_support": "6/30/2009"
+  },
+  {
+    "product_name": "Accelio Capture Enterprise Server",
+    "version": "3",
+    "build": "3",
+    "general_availability": "4/2/2002",
+    "end_of_core_support": "6/30/2007",
+    "end_of_extended_support": "6/30/2009"
+  },
+  {
+    "product_name": "Accelio Integrate Suite",
+    "version": "6",
+    "build": "6.0.1441.0",
+    "general_availability": "8/26/2002",
+    "end_of_core_support": "9/30/2007",
+    "end_of_extended_support": "9/30/2009"
+  },
+  {
+    "product_name": "Accelio Present Central / Central Workstation Edition / Central Pro Server / OS400",
+    "version": "5.4",
+    "build": "5.4.1.344",
+    "general_availability": "1/9/2002",
+    "end_of_core_support": "12/31/2006",
+    "end_of_extended_support": "12/31/2008"
+  },
+  {
+    "product_name": "Accelio Present Output Designer",
+    "version": "5.4",
+    "build": "5.4.0.130",
+    "general_availability": "7/4/2001",
+    "end_of_core_support": "12/31/2006",
+    "end_of_extended_support": "12/31/2008"
+  },
+  {
+    "product_name": "Accelio Present Output Designer",
+    "version": "5.4",
+    "build": "5.4.1.325",
+    "general_availability": "12/21/2001",
+    "end_of_core_support": "12/31/2006",
+    "end_of_extended_support": "12/31/2008"
+  },
+  {
+    "product_name": "Accelio Present Output Pak for mySAP.com",
+    "version": "5.4",
+    "build": "5.4.1.347",
+    "general_availability": "1/9/2002",
+    "end_of_core_support": "12/31/2006",
+    "end_of_extended_support": "12/31/2008"
+  },
+  {
+    "product_name": "Access Core",
+    "version": "4",
+    "build": "",
+    "general_availability": "6/21/2012",
+    "end_of_core_support": "6/21/2017",
+    "end_of_extended_support": "6/21/2019"
+  },
+  {
+    "product_name": "Access Professional",
+    "version": "4",
+    "build": "",
+    "general_availability": "6/21/2012",
+    "end_of_core_support": "6/21/2017",
+    "end_of_extended_support": "6/21/2019"
+  },
+  {
+    "product_name": "Acrobat & Review Comment Connector",
+    "version": "1",
+    "build": "",
+    "general_availability": "6/30/2003",
+    "end_of_core_support": "9/30/2008",
+    "end_of_extended_support": "9/30/2010"
+  },
+  {
+    "product_name": "Acrobat & Review Comment Connector",
+    "version": "1.1",
+    "build": "",
+    "general_availability": "5/7/2004",
+    "end_of_core_support": "9/30/2008",
+    "end_of_extended_support": "9/30/2010"
+  },
+  {
+    "product_name": "Acrobat 3D",
+    "version": "8.x",
+    "build": "",
+    "general_availability": "11/3/2006",
+    "end_of_core_support": "11/3/2011",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "Acrobat Elements",
+    "version": "7.x",
+    "build": "",
+    "general_availability": "4/6/2005",
+    "end_of_core_support": "4/6/2010",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "Acrobat Elements Server",
+    "version": "6",
+    "build": "",
+    "general_availability": "11/20/2003",
+    "end_of_core_support": "12/31/2008",
+    "end_of_extended_support": "12/31/2010"
+  },
+  {
+    "product_name": "Acrobat Elements Server",
+    "version": "6.0.1",
+    "build": "",
+    "general_availability": "6/10/2004",
+    "end_of_core_support": "12/31/2008",
+    "end_of_extended_support": "12/31/2010"
+  },
+  {
+    "product_name": "Acrobat Pro",
+    "version": "9.x",
+    "build": "",
+    "general_availability": "6/23/2008",
+    "end_of_core_support": "6/26/2013",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "Acrobat Pro 2024 (formerly known as Acrobat Classic)",
+    "version": "2024",
+    "build": "",
+    "general_availability": "07/15/2024",
+    "end_of_core_support": "07/15/2029",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "Acrobat Pro 2020",
+    "version": "2020",
+    "build": "",
+    "general_availability": "6/1/2020",
+    "end_of_core_support": "6/1/2025 (extended until 11/30/2025)",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "Acrobat Pro 2017",
+    "version": "2017",
+    "build": "",
+    "general_availability": "6/6/2017",
+    "end_of_core_support": "6/6/2022",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "Acrobat Pro 2015 (classic)",
+    "version": "2015",
+    "build": "",
+    "general_availability": "4/7/2015",
+    "end_of_core_support": "4/7/2020 (extended until 7/7/2020)",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "Acrobat Pro Extended",
+    "version": "9.x",
+    "build": "",
+    "general_availability": "6/23/2008",
+    "end_of_core_support": "6/26/2013",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "Acrobat Professional",
+    "version": "7.x",
+    "build": "",
+    "general_availability": "12/28/2004",
+    "end_of_core_support": "12/28/2009",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "Acrobat Professional",
+    "version": "8.x",
+    "build": "",
+    "general_availability": "11/3/2006",
+    "end_of_core_support": "11/3/2011",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "Acrobat Reader 2020",
+    "version": "2020",
+    "build": "",
+    "general_availability": "6/1/2020",
+    "end_of_core_support": "6/1/2025 (extended until 11/30/2025)",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "Acrobat Reader 2015 (classic)",
+    "version": "2015",
+    "build": "",
+    "general_availability": "4/7/2015",
+    "end_of_core_support": "4/7/2020 (extended until 7/7/2020)",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "Acrobat Standard",
+    "version": "7.x",
+    "build": "",
+    "general_availability": "12/28/2004",
+    "end_of_core_support": "12/28/2009",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "Acrobat Standard",
+    "version": "8.x",
+    "build": "",
+    "general_availability": "11/3/2006",
+    "end_of_core_support": "11/3/2011",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "Acrobat Standard",
+    "version": "9.x",
+    "build": "",
+    "general_availability": "6/23/2008",
+    "end_of_core_support": "6/26/2013",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "Acrobat Standard 2020",
+    "version": "2020",
+    "build": "",
+    "general_availability": "6/1/2020",
+    "end_of_core_support": "6/1/2025 (extended until 11/30/2025)",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "Acrobat Standard 2017",
+    "version": "2017",
+    "build": "",
+    "general_availability": "6/6/2017",
+    "end_of_core_support": "6/6/2022",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "Acrobat Standard 2015 (classic)",
+    "version": "2015",
+    "build": "",
+    "general_availability": "4/7/2015",
+    "end_of_core_support": "4/7/2020 (extended until 7/7/2020)",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "Acrobat X Pro",
+    "version": "10",
+    "build": "",
+    "general_availability": "11/15/2010",
+    "end_of_core_support": "11/15/2015",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "Acrobat X Standard",
+    "version": "10",
+    "build": "",
+    "general_availability": "11/15/2010",
+    "end_of_core_support": "11/15/2015",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "Acrobat X Suite",
+    "version": "10",
+    "build": "",
+    "general_availability": "11/23/2010",
+    "end_of_core_support": "11/23/2015",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "Acrobat XI Pro",
+    "version": "11",
+    "build": "",
+    "general_availability": "10/15/2012",
+    "end_of_core_support": "10/15/2017",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "Acrobat XI Standard",
+    "version": "11",
+    "build": "",
+    "general_availability": "10/15/2012",
+    "end_of_core_support": "10/15/2017",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "ADEP Data Services for Java EE",
+    "version": "4.6.x",
+    "build": "",
+    "general_availability": "11/28/2011",
+    "end_of_core_support": "9/30/2016",
+    "end_of_extended_support": "9/30/2018"
+  },
+  {
+    "product_name": "ADEP Extension Production Print",
+    "version": "10.x.x",
+    "build": "",
+    "general_availability": "11/4/2011",
+    "end_of_core_support": "9/30/2016",
+    "end_of_extended_support": "9/30/2018"
+  },
+  {
+    "product_name": "ADEP PDFg Capability\nPlease see Knowledge Base article for PDF Generator Component",
+    "version": "",
+    "build": "",
+    "general_availability": "8/5/2011",
+    "end_of_core_support": "11/15/2015",
+    "end_of_extended_support": "N/A"
+  },
+  {
+    "product_name": "ADEP Solution - Customer Communications",
+    "version": "10.x.x",
+    "build": "",
+    "general_availability": "8/5/2011",
+    "end_of_core_support": "9/30/2016",
+    "end_of_extended_support": "9/30/2018"
+  },
+  {
+    "product_name": "ADEP Solution - Integrated Content Review",
+    "version": "10.x.x",
+    "build": "",
+    "general_availability": "8/5/2011",
+    "end_of_core_support": "9/30/2016",
+    "end_of_extended_support": "9/30/2018"
+  },
+  {
+    "product_name": "ADEP Solution - Web Experience Management",
+    "version": "10.x.x",
+    "build": "",
+    "general_availability": "8/5/2011",
+    "end_of_core_support": "9/30/2016",
+    "end_of_extended_support": "9/30/2018"
+  },
+  {
+    "product_name": "ADEP Solution - Content Repository Connector (CNCR) for the AEP release",
+    "version": "10.x.x",
+    "build": "",
+    "general_availability": "8/5/2011",
+    "end_of_core_support": "9/30/2016",
+    "end_of_extended_support": "9/30/2018"
+  },
+  {
+    "product_name": "Advanced Form Client",
+    "version": "4",
+    "build": "4.0.4200.2002",
+    "general_availability": "6/24/2002",
+    "end_of_core_support": "6/30/2007",
+    "end_of_extended_support": "6/30/2009"
+  },
+  {
+    "product_name": "Advanced Form Client",
+    "version": "5",
+    "build": "5.0.4400.2002",
+    "general_availability": "1/6/2003",
+    "end_of_core_support": "3/31/2008",
+    "end_of_extended_support": "3/31/2010"
+  },
+  {
+    "product_name": "AEM",
+    "version": "AEM 5.6",
+    "build": "",
+    "general_availability": "2/8/2013",
+    "end_of_core_support": "2/8/2016",
+    "end_of_extended_support": "2/8/2018"
+  },
+  {
+    "product_name": "AEM\n*AEM 6.0 is supported until 3/31/2018 (core) and 3/31/2020 (extended) when used in conjunction with AEM Forms 6.0.",
+    "version": "AEM 6.0",
+    "build": "",
+    "general_availability": "5/22/2014",
+    "end_of_core_support": "5/31/2017*",
+    "end_of_extended_support": "5/31/2019*"
+  },
+  {
+    "product_name": "AEM Forms",
+    "version": "AEM 6.0",
+    "build": "",
+    "general_availability": "5/22/2014",
+    "end_of_core_support": "3/31/2018",
+    "end_of_extended_support": "3/31/2020"
+  },
+  {
+    "product_name": "AEM: All capabilities",
+    "version": "AEM 6.1",
+    "build": "",
+    "general_availability": "5/28/2015",
+    "end_of_core_support": "5/31/2018",
+    "end_of_extended_support": "5/31/2020"
+  },
+  {
+    "product_name": "AEM: All capabilities",
+    "version": "AEM 6.2",
+    "build": "",
+    "general_availability": "4/21/2016",
+    "end_of_core_support": "4/30/2019",
+    "end_of_extended_support": "4/30/2021"
+  },
+  {
+    "product_name": "AEM: All capabilities",
+    "version": "AEM 6.3",
+    "build": "",
+    "general_availability": "4/26/2017",
+    "end_of_core_support": "4/30/2020",
+    "end_of_extended_support": "4/30/2022"
+  },
+  {
+    "product_name": "AEM: All capabilities",
+    "version": "AEM 6.4",
+    "build": "",
+    "general_availability": "4/4/2018",
+    "end_of_core_support": "4/30/2021",
+    "end_of_extended_support": "4/30/2023"
+  },
+  {
+    "product_name": "AEM: All capabilities",
+    "version": "AEM 6.5",
+    "build": "",
+    "general_availability": "4/8/2019",
+    "end_of_core_support": "2/28/2027\n \nThe latest service packs for AEM 6.5 are supported, up to a maximum of 18 months.",
+    "end_of_extended_support": "2/28/2028\n \nThe latest service packs for AEM 6.5 are supported, up to a maximum of 18 months."
+  },
+  {
+    "product_name": "AEM: All capabilities",
+    "version": "AEM 6.5 LTS",
+    "build": "",
+    "general_availability": "2/28/2025",
+    "end_of_core_support": "Adobe provides long-term support for AEM 6.5 LTS through quarterly Service Packs, with each Service Pack supported for up to 18 months from its release.",
+    "end_of_extended_support": "Not applicable"
+  },
+  {
+    "product_name": "AEM customer communications Add-on powered by LiveCycle",
+    "version": "11.x.x",
+    "build": "",
+    "general_availability": "3/22/2013",
+    "end_of_core_support": "3/31/2018",
+    "end_of_extended_support": "3/31/2020"
+  },
+  {
+    "product_name": "AEM document security Add-on, powered by LiveCycle",
+    "version": "11.x.x",
+    "build": "",
+    "general_availability": "3/22/2013",
+    "end_of_core_support": "3/31/2018",
+    "end_of_extended_support": "3/31/2020"
+  },
+  {
+    "product_name": "AEM document services Add-on, powered by LiveCycle",
+    "version": "11.x.x",
+    "build": "",
+    "general_availability": "3/22/2013",
+    "end_of_core_support": "3/31/2018",
+    "end_of_extended_support": "3/31/2020"
+  },
+  {
+    "product_name": "Adobe Experience Manager Guides \n\n(formerly branded as XML Documentation for Adobe Experience Manager)",
+    "version": "4.1",
+    "build": "",
+    "general_availability": "07/01/2022",
+    "end_of_core_support": "06/30/2025",
+    "end_of_extended_support": "06/30/2027"
+  },
+  {
+    "product_name": "Experience Manager Guides",
+    "version": "4.2",
+    "build": "",
+    "general_availability": "02/22/2023",
+    "end_of_core_support": "02/21/2026",
+    "end_of_extended_support": "02/21/2028"
+  },
+  {
+    "product_name": "Experience Manager Guides",
+    "version": "4.3",
+    "build": "",
+    "general_availability": "07/26/2023",
+    "end_of_core_support": "07/25/2026",
+    "end_of_extended_support": "07/25/2028"
+  },
+  {
+    "product_name": "Experience Manager Guides",
+    "version": "4.4",
+    "build": "",
+    "general_availability": "01/29/2024",
+    "end_of_core_support": "01/28/2027",
+    "end_of_extended_support": "01/27/2029"
+  },
+  {
+    "product_name": "Barcoded Paper Forms Solution",
+    "version": "6",
+    "build": "",
+    "general_availability": "7/6/2004",
+    "end_of_core_support": "9/30/2009",
+    "end_of_extended_support": "9/30/2011"
+  }
+]
